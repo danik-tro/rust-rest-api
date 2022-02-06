@@ -1,19 +1,16 @@
 use serde::Deserialize;
 use std::fs;
 
-
 #[derive(Deserialize)]
 struct AppConfig {
     url: String,
-    port: u16
+    port: u16,
 }
-
 
 #[derive(Deserialize)]
 pub struct Config {
-    app: AppConfig
+    app: AppConfig,
 }
-
 
 impl Config {
     pub fn from_file(path: &'static str) -> Self {

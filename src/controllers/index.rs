@@ -1,12 +1,10 @@
-use actix_web::{get, web, HttpResponse, Responder};
-
+use actix_web::{get, web, Responder};
 
 pub fn init(cfg: &mut web::ServiceConfig) {
     cfg.service(index);
 }
 
-
 #[get("/")]
 async fn index() -> impl Responder {
-    HttpResponse::Ok().body("OK")
+    super::schemas::index::StatusResponse { status: "Ok" }
 }

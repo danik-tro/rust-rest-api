@@ -1,7 +1,6 @@
-use actix_web::{web, App, HttpServer};
+use actix_web::{App, HttpServer};
 use rust_web_api::config::Config;
-use rust_web_api::{controllers};
-
+use rust_web_api::controllers;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -12,10 +11,7 @@ async fn main() -> std::io::Result<()> {
 
     println!("Config from {}", config_file);
 
-    let server = HttpServer::new(move || {
-        App::new()
-            .configure(controllers::init_index)
-    })
+    let server = HttpServer::new(move || App::new().configure(controllers::init_index))
         .bind(config.get_app_url())?;
 
     println!("Listening on: {}", config.get_app_url());
