@@ -1,13 +1,20 @@
-use actix_web::{web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{web, App, HttpServer};
+use rust_web_api::config::Config;
 
-async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Hello world!")
-}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().route("/hello", web::get().to(hello)))
-        .bind("127.0.0.1:8080")?
-        .run()
-        .await
+    println!("Setup configuration");
+
+    let config_file: &'static str = "config.json";
+    let config = Config::from_file(config_file);
+
+    println!("Config from {}", config_file);
+
+    let server = HttpServer::new(|| App::new())
+        .bind(config.get_app_url())?;
+
+    println!("Listening on: {}", config.get_app_url());
+
+    server.run().await
 }
